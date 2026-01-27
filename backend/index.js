@@ -1,9 +1,20 @@
 const express = require('express')
 const app = express()
 const port = 3001
+require('dotenv').config()
+const mongoose = require('mongoose')
+mongoose.connect(process.env.MONGODB_URI)
 const cors = require('cors')
 app.use(cors())
 app.use(express.json())
+
+const itemSchema = new mongoose.Schema({
+    name: String,
+    amount: String,
+    bought: Boolean,
+})
+
+const Item = mongoose.model('Item', itemSchema);
 
 let items = [
   { id: 1, name: 'Latte', amount: 2, bought: false },
@@ -13,36 +24,45 @@ let items = [
 
 // get all items
 app.get('/api/items', (req, res) => {
-    res.json(items)
+    Item.find({}).then(items => {
+        res.json(items)
+    })
 })
 
 // post new item
 app.post('/api/items', (req, res) => {
     const body = req.body
-    const newItem = {
-        id: Math.floor(Math.random() * 1000),
+    const item = new Item({
         name: body.name,
         amount: body.amount || 1,
-        bought: body.bought || false
-    }
+        bought: body.bought || false,
+    })
 
-    items = items.concat(newItem)
-    res.status(201).json(newItem)
+    item.save().then(savedItem => {
+        res.json(savedItem) 
+    })
 })
 
 // delete item
 app.delete('/api/items/:id', (req, res) => {
-    items = items.filter(item => item.id !== Number(req.params.id))
-    res.status(204).end()
+    Item.findByIdAndDelete(req.params.id).then(result => {
+        res.status(204).end()
+    })
 })
 
 // put item
 app.put('/api/items/:id', (req, res) => {
-    const id = Number(req.params.id)
-    updatedObject = req.body
+    const body = req.body
 
-    items = items.map(item => item.id === id ? updatedObject : item)
-    res.status(201).json(updatedObject)
+    const item = {
+        name: body.name,
+        amount: body.amount,
+        bought: body.bought
+    }
+
+    Item.findByIdAndUpdate(req.params.id, item, { new: true} ).then(updatedItem => {
+        res.json(updatedItem)
+    })
 })
 
 
