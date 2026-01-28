@@ -36,6 +36,28 @@ const toggleItem = (id) => {
   )
 }
 
+// increase amount
+const increaseAmount = (id) => {
+  const itemToIncrease = items.find(item => item.id === id)
+  const increasedItem = { ...itemToIncrease, amount: itemToIncrease.amount + 1 }
+
+  itemService.updateItem(id, increasedItem)
+    .then(returnedItem => {
+      setItems(items.map(item => item.id !== id ? item : returnedItem))
+    })
+}
+
+// decrease amount
+const decreaseAmount = (id) => {
+  const itemToDecrease = items.find(item => item.id === id)
+  const decreasedItem = { ...itemToDecrease, 
+    amount: itemToDecrease.amount > 0 ? itemToDecrease.amount - 1 : 0}
+
+  itemService.updateItem(id, decreasedItem)
+    .then(returnedItem => {
+      setItems(items.map(item => item.id !== id ? item : returnedItem))
+    })
+}
 
 return (
   <div>
@@ -45,6 +67,8 @@ return (
       items={items} 
       deleteItem={deleteItem} 
       toggleItem={toggleItem}
+      increaseAmount={increaseAmount}
+      decreaseAmount={decreaseAmount}
     />
 
   </div>

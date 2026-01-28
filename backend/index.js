@@ -10,7 +10,7 @@ app.use(express.json())
 
 const itemSchema = new mongoose.Schema({
     name: String,
-    amount: String,
+    amount: Number,
     bought: Boolean,
 })
 

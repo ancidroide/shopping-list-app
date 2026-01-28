@@ -1,6 +1,6 @@
 import Item from "./Item"
 
-const ShoppingList = ({ items, deleteItem, toggleItem }) => {
+const ShoppingList = ({ items, deleteItem, toggleItem, increaseAmount, decreaseAmount }) => {
     return (
         <div>
             <table>
@@ -13,7 +13,13 @@ const ShoppingList = ({ items, deleteItem, toggleItem }) => {
                 </thead>
                 <tbody>
                     {items.map(item => (
-                    <Item key={item.id} item={item} onDeleteItem={deleteItem} onToggleItem={toggleItem}/>
+                    <Item key={item.id} 
+                        item={item} 
+                        onDeleteItem={deleteItem} 
+                        onToggleItem={toggleItem}
+                        onIncreaseAmount={increaseAmount}
+                        onDecreaseAmount={decreaseAmount}
+                    />
                      ))}
                 </tbody>
                 

@@ -1,8 +1,11 @@
-const Item = ({ item, onDeleteItem, onToggleItem }) => {
+const Item = ({ item, onDeleteItem, onToggleItem, onIncreaseAmount, onDecreaseAmount}) => {
     return (
         <tr>
             <td>Oggetto: {item.name}</td>
-            <td>Quantità: {item.amount}</td>
+            <td>Quantità: {item.amount}
+                <button onClick={() => onIncreaseAmount(item.id)}>+</button>
+                <button onClick={() => onDecreaseAmount(item.id)}>-</button>
+            </td>
             <td>{item.bought ? ' Acquistato' : 'Da comprare'}</td>
 
             <td>
