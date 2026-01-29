@@ -1,38 +1,24 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
-const port = 3001
-require('dotenv').config()
-const mongoose = require('mongoose')
-mongoose.connect(process.env.MONGODB_URI)
+const Item = require('./models/item')
+
 const cors = require('cors')
 app.use(cors())
 app.use(express.json())
 
-const itemSchema = new mongoose.Schema({
-    name: String,
-    amount: Number,
-    bought: Boolean,
-})
-
-itemSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
-  }
-})
-
-const Item = mongoose.model('Item', itemSchema);
 
 // get all items
-app.get('/api/items', (req, res) => {
-    Item.find({}).then(items => {
+app.get('/api/items', (req, res, next) => {
+    Item.find({})
+    .then(items => {
         res.json(items)
     })
+    .catch(error => next(error))
 })
 
 // post new item
-app.post('/api/items', (req, res) => {
+app.post('/api/items', (req, res, next) => {
     const body = req.body
     const item = new Item({
         name: body.name,
@@ -40,20 +26,24 @@ app.post('/api/items', (req, res) => {
         bought: body.bought || false,
     })
 
-    item.save().then(savedItem => {
+    item.save()
+    .then(savedItem => {
         res.json(savedItem) 
     })
+    .catch(error => next(error))
 })
 
 // delete item
-app.delete('/api/items/:id', (req, res) => {
-    Item.findByIdAndDelete(req.params.id).then(result => {
+app.delete('/api/items/:id', (req, res, next) => {
+    Item.findByIdAndDelete(req.params.id)
+    .then(result => {
         res.status(204).end()
     })
+    .catch(error => next(error))
 })
 
 // put item
-app.put('/api/items/:id', (req, res) => {
+app.put('/api/items/:id', (req, res, next) => {
     const body = req.body
 
     const item = {
@@ -63,12 +53,33 @@ app.put('/api/items/:id', (req, res) => {
     }
 
     Item.findByIdAndUpdate(req.params.id, item, { new: true} )
-        .then(updatedItem => {
-            res.json(updatedItem)
+    .then(updatedItem => {
+        res.json(updatedItem)
     })
+    .catch(error => next(error))
 })
 
+// uknown end route
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+app.use(unknownEndpoint)
+
+// error handler
+const errorHandler = (error, req, res, next) => {
+    console.error(error.message)
+
+    if (error.name === 'CastError') {
+        return res.status(400).send({ error: 'malformatted id' })
+    }
+    next(error)
+}
+
+app.use(errorHandler)
+
+
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
 })
