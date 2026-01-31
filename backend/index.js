@@ -1,17 +1,9 @@
-require('dotenv').config()
-const express = require('express')
-const app = express()
+const app = require('./app')
+const config = require('./utils/config')
+const logger = require('./utils/logger')
 
-
-const cors = require('cors')
-app.use(cors())
-app.use(express.json())
-
-
-app.use(errorHandler)
-
-
-const PORT = process.env.PORT || 3001
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+// Start the server
+app.listen(config.PORT, () => {
+  logger.info(`Server running on port ${config.PORT}`)
 })
+

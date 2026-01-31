@@ -1,3 +1,6 @@
+const logger = require('./logger')
+
+// Logger for requests
 const requestLogger = (request, response, next) => {
   logger.info('Method:', request.method)
   logger.info('Path:  ', request.path)
@@ -7,7 +10,7 @@ const requestLogger = (request, response, next) => {
 }
 
 
-// uknown end route
+// uknown endponts/end routes
 const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }

@@ -1,21 +1,13 @@
-const url = process.env.MONGODB_URI
 const mongoose = require('mongoose')
 
-mongoose.connect(process.env.MONGODB_URI)
-    .then(result => {
-        console.log('Connesso a MongoDB')
-    })
-    .catch(error => {
-        console.log('Errore di connessione a MongoDB:', error.message)
-    })
-
-
+// itemSchema creation
 const itemSchema = new mongoose.Schema({
     name: String,
     amount: Number,
     bought: Boolean,
 })
 
+// Transform items when converted toJSON 
 itemSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
