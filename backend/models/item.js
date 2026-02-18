@@ -5,6 +5,12 @@ const itemSchema = new mongoose.Schema({
     name: String,
     amount: Number,
     bought: Boolean,
+    category: {
+      type: String,
+      required: true,
+      default: 'Altro',
+      enum: ['Frutta', 'Verdura', 'Carne', 'Pesce', 'Latticini', 'Casa', 'Altro']
+    }
 })
 
 // Transform items when converted toJSON 

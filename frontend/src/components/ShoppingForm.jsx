@@ -1,15 +1,14 @@
 import { useState } from "react"
+import { TextField, Button, Box, Paper } from "@mui/material"
+import AddIcon from '@mui/icons-material/Add';
 
-
-const ShoppingListForm = ({ onAddItem }) => {
+const ShoppingForm = ({ onAddItem }) => {
     const [newItemName, setNewItemName] = useState('')
 
-    // function to show input text in newItemName form
     const handleNewItemName = (event) => {
         setNewItemName(event.target.value)
     }
 
-    // function to handle submitting newItemName and erasing input form
     const handleSubmit = (event) => {
         event.preventDefault()
         if (newItemName.trim() === '') {
@@ -21,29 +20,41 @@ const ShoppingListForm = ({ onAddItem }) => {
             name: newItemName,
             amount: 1,
             bought: false
-     }
+        }
         onAddItem(newItem)
         setNewItemName('')
     }
 
-
-
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <input 
-                    type="text" 
+        <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
+            <Box 
+                component="form" ShoppingForm
+                onSubmit={handleSubmit}
+                sx={{ 
+                    display: 'flex', 
+                    gap: 2,
+                    alignItems: 'center'
+                }}
+            >
+                <TextField 
+                    variant="outlined"
+                    size="small"
+                    placeholder="Aggiungi elemento..."
+                    value={newItemName}
                     onChange={handleNewItemName}
-                    value={newItemName}        
+                    sx={{ flexGrow: 1 }}
                 />
-
-                <button type="submit">Aggiungi elemento</button>
-            </form>
-        </div>
+                <Button 
+                    variant="contained" 
+                    color="primary" 
+                    type="submit"
+                    startIcon={<AddIcon />}
+                >
+                    Aggiungi
+                </Button>
+            </Box>
+        </Paper>
     )
-
 }
 
-
-
-export default ShoppingListForm
+export default ShoppingForm

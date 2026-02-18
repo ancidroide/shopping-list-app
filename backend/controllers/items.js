@@ -1,3 +1,4 @@
+const { request } = require('express')
 const Item = require('../models/item')
 const itemsRouter = require('express').Router()
 
@@ -17,6 +18,7 @@ itemsRouter.post('/', (req, res, next) => {
         name: body.name,
         amount: body.amount || 1,
         bought: body.bought || false,
+        category: body.category || 'Altro'
     })
 
     item.save()
@@ -42,7 +44,8 @@ itemsRouter.put('/:id', (req, res, next) => {
     const item = {
         name: body.name,
         amount: body.amount,
-        bought: body.bought
+        bought: body.bought,
+        category: body.category,
     }
 
     Item.findByIdAndUpdate(req.params.id, item, { new: true} )
