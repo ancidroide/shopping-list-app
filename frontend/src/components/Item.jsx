@@ -1,9 +1,8 @@
-import { TableCell, TableRow, IconButton, Chip } from "@mui/material"
+import { TableCell, TableRow, IconButton, Chip, Checkbox } from "@mui/material"
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import CheckIcon from '@mui/icons-material/Check';
-import ReplayIcon from '@mui/icons-material/Replay';
 import DeleteIcon from '@mui/icons-material/Delete';
+
 
 const Item = ({ item, onDeleteItem, onToggleItem, onIncreaseAmount, onDecreaseAmount}) => {
     return (
@@ -44,15 +43,16 @@ const Item = ({ item, onDeleteItem, onToggleItem, onIncreaseAmount, onDecreaseAm
                     size="small"
                 />
             </TableCell>
+
             <TableCell>
-                <IconButton 
-                    color="primary" 
+                <Checkbox
+                    checked={item.bought}
+                    size='small'
                     onClick={() => onToggleItem(item.id)}
-                    title={item.bought ? "Ripristina" : "Segna come fatto"}
-                >
-                    {item.bought ? <ReplayIcon /> : <CheckIcon />}
-                </IconButton>
+                    title={item.bought ? 'Ripristina' : 'Segna come fatto'}    
+                />
             </TableCell>
+            
             <TableCell>
                 <IconButton 
                     color="error" 

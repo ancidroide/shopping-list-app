@@ -100,6 +100,7 @@ const App = () => {
         </Box>
 
         <ShoppingForm onAddItem={addItem} />
+      
 
         <ShoppingList 
           items={items} 

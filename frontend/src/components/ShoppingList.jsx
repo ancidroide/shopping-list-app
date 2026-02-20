@@ -20,7 +20,7 @@ const ShoppingList = ({ items, deleteItem, toggleItem, increaseAmount, decreaseA
                         <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Nome</TableCell>
                         <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Quantità</TableCell>
                         <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Stato</TableCell>
-                        <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Azioni</TableCell>
+                        <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Check</TableCell>
                         <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>Elimina</TableCell>
                     </TableRow>
                 </TableHead>
