@@ -16,6 +16,14 @@ const Item = ({ item, onDeleteItem, onToggleItem, onIncreaseAmount, onDecreaseAm
                 {item.name}
             </TableCell>
             <TableCell>
+                <Chip
+                    label={item.category}
+                    size="small"
+                    sx={{ mx: 1, minWidth: 30 }}
+                />
+
+            </TableCell>
+            <TableCell>
                 <IconButton 
                     size="small" 
                     onClick={() => onDecreaseAmount(item.id)}

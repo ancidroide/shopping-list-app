@@ -26,7 +26,6 @@ const ShoppingForm = ({ onAddItem }) => {
         }
         
         const newItem = {
-            id: Date.now(),
             name: newItemName,
             amount: quantity,
             bought: false,
@@ -41,7 +40,7 @@ const ShoppingForm = ({ onAddItem }) => {
     return (
         <Paper elevation={2} sx={{ p: 3, mb: 3 }}>
             <Box 
-                component="form" ShoppingForm
+                component="form"
                 onSubmit={handleSubmit}
                 sx={{ 
                     display: 'flex', 
