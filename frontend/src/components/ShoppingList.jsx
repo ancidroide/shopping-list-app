@@ -1,7 +1,7 @@
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Box } from "@mui/material"
 import Item from "./Item"
 
-const ShoppingList = ({ items, deleteItem, toggleItem, increaseAmount, decreaseAmount }) => {
+const ShoppingList = ({ items, deleteItem, toggleItem, increaseAmount, decreaseAmount, isLoading }) => {
     if (items.length === 0) {
         return (
             <Paper elevation={1} sx={{ p: 3, textAlign: 'center' }}>
@@ -33,6 +33,7 @@ const ShoppingList = ({ items, deleteItem, toggleItem, increaseAmount, decreaseA
                             onToggleItem={toggleItem}
                             onIncreaseAmount={increaseAmount}
                             onDecreaseAmount={decreaseAmount}
+                            isLoading={isLoading}
                         />
                     ))}
                 </TableBody>

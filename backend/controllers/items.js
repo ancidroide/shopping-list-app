@@ -21,6 +21,14 @@ itemsRouter.post('/', (req, res, next) => {
         category: body.category || 'Altro'
     })
 
+    if (item.name === '') {
+        return res.status(400).json({ error: 'name required' })
+    }
+
+    if (item.amount < 1 || item.amount > 999) {
+        return res.status(400).json({ error: 'invalid quantity'})
+    }
+    
     item.save()
     .then(savedItem => {
         res.json(savedItem) 

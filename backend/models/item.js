@@ -3,7 +3,13 @@ const mongoose = require('mongoose')
 // itemSchema creation
 const itemSchema = new mongoose.Schema({
     name: String,
-    amount: Number,
+    amount: {
+      type: Number,
+      required: true,
+      min: [1, 'quantità minima consentita: 1'],
+      max: [999, 'quantità massima consentita: 999']
+    },
+
     bought: Boolean,
     category: {
       type: String,

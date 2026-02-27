@@ -2,7 +2,7 @@ import { useState } from "react"
 import { TextField, Button, Box, Paper, Select, MenuItem, FormControl, InputLabel,  } from "@mui/material"
 import AddIcon from '@mui/icons-material/Add';
 
-const ShoppingForm = ({ onAddItem }) => {
+const ShoppingForm = ({ onAddItem, categories, isLoading }) => {
     const [newItemName, setNewItemName] = useState('')
     const [quantity, setQuantity] = useState(1)
     const [category, setCategory] = useState('Altro')
@@ -21,7 +21,18 @@ const ShoppingForm = ({ onAddItem }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault()
+        
         if (newItemName.trim() === '') {
+            return
+        }
+
+        const validQuantity = parseInt(quantity) || 1
+
+        if (validQuantity < 1 || validQuantity > 999) {
+            alert('Quantità non valida')
+            setNewItemName('')
+            setQuantity(1)
+            setCategory('Altro')
             return
         }
         
@@ -63,6 +74,8 @@ const ShoppingForm = ({ onAddItem }) => {
                     label='quantità'
                     type="number"
                     size="small"
+                    min="1"
+                    max="999"
                     value={quantity}
                     onChange={handleQuantity}
                     sx={{ flexGrow: 1 }}      
@@ -78,17 +91,14 @@ const ShoppingForm = ({ onAddItem }) => {
                         size="small"
                         sx={{ flexGrow: 1 }}
                     >
-                        <MenuItem value={'Frutta'}>Frutta</MenuItem>
-                        <MenuItem value={'Verdura'}>Verdura</MenuItem>
-                        <MenuItem value={'Carne'}>Carne</MenuItem>
-                        <MenuItem value={'Pesce'}>Pesce</MenuItem>
-                        <MenuItem value={'Latticini'}>Latticini</MenuItem>
-                        <MenuItem value={'Casa'}>Casa</MenuItem>
-                        <MenuItem value={'Altro'}>Altro</MenuItem>
+                        {categories.map(cat => (
+                            <MenuItem value={cat}>{cat}</MenuItem>
+                        ))}
 
                     </Select>
                 </FormControl>
                 <Button 
+                    disabled={isLoading}
                     variant="contained" 
                     color="primary" 
                     type="submit"

@@ -4,7 +4,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 
-const Item = ({ item, onDeleteItem, onToggleItem, onIncreaseAmount, onDecreaseAmount}) => {
+const Item = ({ item, onDeleteItem, onToggleItem, onIncreaseAmount, onDecreaseAmount, isLoading }) => {
     return (
         <TableRow 
             sx={{ 
@@ -27,7 +27,7 @@ const Item = ({ item, onDeleteItem, onToggleItem, onIncreaseAmount, onDecreaseAm
                 <IconButton 
                     size="small" 
                     onClick={() => onDecreaseAmount(item.id)}
-                    disabled={item.amount <= 0}
+                    disabled={item.amount <= 1 || isLoading}
                 >
                     <RemoveIcon fontSize="small" />
                 </IconButton>
@@ -40,6 +40,7 @@ const Item = ({ item, onDeleteItem, onToggleItem, onIncreaseAmount, onDecreaseAm
                 <IconButton 
                     size="small" 
                     onClick={() => onIncreaseAmount(item.id)}
+                    disabled={item.amount >= 999 || isLoading}
                 >
                     <AddIcon fontSize="small" />
                 </IconButton>
@@ -54,6 +55,7 @@ const Item = ({ item, onDeleteItem, onToggleItem, onIncreaseAmount, onDecreaseAm
 
             <TableCell>
                 <Checkbox
+                    disabled={isLoading}
                     checked={item.bought}
                     size='small'
                     onClick={() => onToggleItem(item.id)}
@@ -62,7 +64,8 @@ const Item = ({ item, onDeleteItem, onToggleItem, onIncreaseAmount, onDecreaseAm
             </TableCell>
             
             <TableCell>
-                <IconButton 
+                <IconButton
+                    disabled={isLoading} 
                     color="error" 
                     onClick={() => onDeleteItem(item.id)}
                     title="Elimina"
